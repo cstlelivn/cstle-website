@@ -91,7 +91,7 @@ serve(async (req) => {
 
           <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
             <p style="color: #666; font-size: 13px; margin: 0;">
-              View in Admin Dashboard: <a href="https://ream-oculus-12377734.figma.site/#/admin" style="color: #191919;">https://ream-oculus-12377734.figma.site/#/admin</a>
+              View in Admin Dashboard: <a href="https://admin.cstlelivn.ca/" style="color: #191919;">https://admin.cstlelivn.ca/</a>
             </p>
           </div>
         </div>
@@ -118,7 +118,7 @@ ${record.project_details || record.notes || 'No details provided'}
 Submitted: ${new Date(record.created_at || new Date()).toLocaleString()}
 Source: ${record.source_page || 'Book Service form'}
 
-View in Admin Dashboard: https://ream-oculus-12377734.figma.site/#/admin
+View in Admin Dashboard: https://admin.cstlelivn.ca/
       `.trim();
       
     } else {
@@ -151,7 +151,7 @@ View in Admin Dashboard: https://ream-oculus-12377734.figma.site/#/admin
 
           <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
             <p style="color: #666; font-size: 13px; margin: 0;">
-              View in Admin Dashboard: <a href="https://ream-oculus-12377734.figma.site/#/admin" style="color: #191919;">https://ream-oculus-12377734.figma.site/#/admin</a>
+              View in Admin Dashboard: <a href="https://admin.cstlelivn.ca/" style="color: #191919;">https://admin.cstlelivn.ca/</a>
             </p>
           </div>
         </div>
@@ -173,7 +173,7 @@ ${record.message || record.notes || 'No message provided'}
 Submitted: ${new Date(record.created_at || new Date()).toLocaleString()}
 Source: ${record.source_page || 'Contact form'}
 
-View in Admin Dashboard: https://ream-oculus-12377734.figma.site/#/admin
+View in Admin Dashboard: https://admin.cstlelivn.ca/
       `.trim();
     }
 
