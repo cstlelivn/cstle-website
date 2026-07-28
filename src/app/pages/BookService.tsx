@@ -103,9 +103,11 @@ export function BookService() {
           email: formData.email || null,
           phone: formData.phone || null,
           project_address: formData.address || null,
+          province: formData.province || null,
           service_type: formData.serviceType,
           project_type: formData.serviceType,
           consultation_date: date ? date.toISOString() : null,
+          consultation_time: formData.consultationTime || null,
           project_details: formData.projectDetails,
           notes: formData.projectDetails,
           status: "new"

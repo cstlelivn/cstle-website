@@ -76,6 +76,7 @@ serve(async (req) => {
             <h3 style="margin-top: 0; color: #191919; font-size: 18px;">Project Details</h3>
             <p style="margin: 8px 0;"><strong>Service Type:</strong> ${record.project_type || record.service_type || 'Not specified'}</p>
             <p style="margin: 8px 0;"><strong>Project Address:</strong> ${record.project_address || 'Not provided'}</p>
+            ${record.province ? `<p style="margin: 8px 0;"><strong>Province:</strong> ${record.province}</p>` : ''}
             ${record.consultation_date ? `<p style="margin: 8px 0;"><strong>Preferred Date:</strong> ${new Date(record.consultation_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>` : ''}
             ${record.consultation_time ? `<p style="margin: 8px 0;"><strong>Preferred Time:</strong> ${record.consultation_time}</p>` : ''}
             <p style="margin: 8px 0;"><strong>Project Details:</strong></p>
@@ -108,6 +109,7 @@ Phone: ${record.phone}
 Project Details:
 Service Type: ${record.project_type || record.service_type || 'Not specified'}
 Project Address: ${record.project_address || 'Not provided'}
+${record.province ? `Province: ${record.province}` : ''}
 ${record.consultation_date ? `Preferred Date: ${new Date(record.consultation_date).toLocaleDateString()}` : ''}
 ${record.consultation_time ? `Preferred Time: ${record.consultation_time}` : ''}
 
