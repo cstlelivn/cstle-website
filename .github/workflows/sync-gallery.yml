@@ -24,7 +24,10 @@ jobs:
       - name: Sync gallery from Google Drive
         env:
           GDRIVE_SERVICE_ACCOUNT_KEY: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_KEY }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          # SUPABASE_URL intentionally omitted: the SUPABASE_URL secret was set
+          # to a malformed value (every request failed with "Invalid path
+          # specified in request URL"), and the script already falls back to
+          # the correct project URL when this env var is unset.
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GDRIVE_GALLERY_ROOT_FOLDER: ${{ secrets.GDRIVE_GALLERY_ROOT_FOLDER }}
         # The npm script wraps this in `tsx --env-file=.env.local`, which is
