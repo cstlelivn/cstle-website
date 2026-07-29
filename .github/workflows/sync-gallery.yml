@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm ci
@@ -27,4 +27,9 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GDRIVE_GALLERY_ROOT_FOLDER: ${{ secrets.GDRIVE_GALLERY_ROOT_FOLDER }}
-        run: npm run sync:gallery
+        # The npm script wraps this in `tsx --env-file=.env.local`, which is
+        # for local dev (loading secrets from a gitignored file) -- in CI the
+        # env vars above are already in the process environment, and
+        # --env-file requires Node 20.6+ / errors outright on the Node 18
+        # this workflow used to pin, so call tsx directly instead of via npm run.
+        run: npx tsx src/app/scripts/syncGalleryFromDrive.ts
