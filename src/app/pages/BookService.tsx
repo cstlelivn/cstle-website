@@ -86,14 +86,26 @@ export function BookService() {
     setErrorMessage("");
     
     try {
-      // Insert into Supabase leads table using REST API
+      // Insert into Supabase leads table using REST API.
+      //
+      // IMPORTANT: "Prefer: return=minimal", not "return=representation".
+      // A public visitor is allowed to INSERT a lead (leads_insert_web /
+      // leads_public_insert RLS policies, anon role) but is deliberately
+      // NOT allowed to read leads back (leads_select requires
+      // can_view_crm(), staff-only). Postgres RLS treats "hand the new row
+      // back to the caller" as a read, governed by the SELECT policy, not
+      // the INSERT policy -- asking for return=representation here made
+      // the whole insert fail with a generic RLS error, because the
+      // visitor could insert but could never be handed back the row they
+      // just created. return=minimal skips that read entirely: the
+      // response body is empty on success, which is all this form needs.
       const response = await fetch(`https://${projectId}.supabase.co/rest/v1/leads`, {
         method: "POST",
         headers: {
           "apikey": publicAnonKey,
           "Authorization": `Bearer ${publicAnonKey}`,
           "Content-Type": "application/json",
-          "Prefer": "return=representation"
+          "Prefer": "return=minimal"
         },
         body: JSON.stringify({
           source_form: "booking",
@@ -115,13 +127,20 @@ export function BookService() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Supabase insert error:', errorData);
-        throw new Error(errorData.message || `HTTP error ${response.status}`);
+        // return=minimal means an error response may still carry a JSON
+        // body describing what went wrong -- but don't assume it does.
+        let message = `HTTP error ${response.status}`;
+        try {
+          const errorData = await response.json();
+          console.error('Supabase insert error:', errorData);
+          if (errorData?.message) message = errorData.message;
+        } catch {
+          // No JSON body to parse -- the generic message above stands.
+        }
+        throw new Error(message);
       }
 
-      const data = await response.json();
-      console.log('Successfully inserted:', data);
+      console.log('Successfully inserted booking lead');
 
       // Success! Booking submitted
       // Note: Email notifications removed due to CORS. Admin can view leads in Supabase dashboard or admin app.
