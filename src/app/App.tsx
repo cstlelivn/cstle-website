@@ -12,7 +12,6 @@ import { LogoTest } from "./pages/LogoTest";
 import { Admin } from "./pages/Admin";
 import { AdminSetup } from "./pages/AdminSetup";
 import { trackPageView, GA_MEASUREMENT_ID } from "./utils/analytics";
-import { GoogleAnalytics } from "./components/GoogleAnalytics";
 
 // Analytics wrapper component to track page views
 function AnalyticsWrapper({ children }: { children: React.ReactNode }) {
@@ -64,7 +63,6 @@ export default function App() {
 
   return (
     <Router>
-      <GoogleAnalytics />
       <AnalyticsWrapper>
         <Routes>
           <Route path="/" element={<Home />} />
