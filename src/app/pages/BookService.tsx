@@ -18,6 +18,7 @@ export function BookService() {
     email: "",
     phone: "",
     address: "",
+    city: "",
     province: "",
     serviceType: "",
     consultationTime: "",
@@ -46,6 +47,7 @@ export function BookService() {
         email: "",
         phone: "",
         address: "",
+        city: "",
         province: "",
         serviceType: "",
         consultationTime: "",
@@ -57,8 +59,8 @@ export function BookService() {
       return;
     }
 
-    // Validation — email or phone required; address is optional
-    if (!formData.firstName || !formData.lastName || !formData.serviceType || !formData.projectDetails) {
+    // Validation — email or phone required; project details is optional
+    if (!formData.firstName || !formData.lastName || !formData.address || !formData.serviceType) {
       setErrorMessage("Please fill in all required fields.");
       setFormState('error');
       return;
@@ -115,13 +117,14 @@ export function BookService() {
           email: formData.email || null,
           phone: formData.phone || null,
           project_address: formData.address || null,
+          city: formData.city || null,
           province: formData.province || null,
           service_type: formData.serviceType,
           project_type: formData.serviceType,
           consultation_date: date ? date.toISOString() : null,
           consultation_time: formData.consultationTime || null,
-          project_details: formData.projectDetails,
-          notes: formData.projectDetails,
+          project_details: formData.projectDetails || null,
+          notes: formData.projectDetails || null,
           status: "new"
         })
       });
@@ -151,6 +154,7 @@ export function BookService() {
         email: "",
         phone: "",
         address: "",
+        city: "",
         province: "",
         serviceType: "",
         consultationTime: "",
@@ -298,7 +302,7 @@ export function BookService() {
                     {/* Project Address */}
                     <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
                       <label htmlFor="address" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
-                        Project Address
+                        Project Address *
                       </label>
                       <input
                         type="text"
@@ -306,30 +310,48 @@ export function BookService() {
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
-                        placeholder="Optional"
+                        required
                         className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[14px] placeholder:text-[#848580]"
                         style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
                       />
                     </div>
 
-                    {/* Province */}
-                    <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-                      <label htmlFor="province" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
-                        Province
-                      </label>
-                      <select
-                        id="province"
-                        name="province"
-                        value={formData.province}
-                        onChange={handleChange}
-                        className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[13px] md:text-[14px] cursor-pointer"
-                        style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
-                      >
-                        <option value="">Select province</option>
-                        <option value="Saskatchewan">Saskatchewan</option>
-                        <option value="British Columbia">British Columbia</option>
-                        <option value="Other">Other</option>
-                      </select>
+                    {/* City + Province -- split into two within the same slot Province used to occupy alone */}
+                    <div className="gap-[16px] md:gap-[24px] grid grid-cols-2 relative shrink-0 w-full">
+                      <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
+                        <label htmlFor="city" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
+                          City
+                        </label>
+                        <input
+                          type="text"
+                          id="city"
+                          name="city"
+                          value={formData.city}
+                          onChange={handleChange}
+                          placeholder="Optional"
+                          className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[14px] placeholder:text-[#848580]"
+                          style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
+                        />
+                      </div>
+
+                      <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
+                        <label htmlFor="province" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
+                          Province
+                        </label>
+                        <select
+                          id="province"
+                          name="province"
+                          value={formData.province}
+                          onChange={handleChange}
+                          className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[13px] md:text-[14px] cursor-pointer"
+                          style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
+                        >
+                          <option value="">Select province</option>
+                          <option value="Saskatchewan">Saskatchewan</option>
+                          <option value="British Columbia">British Columbia</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -428,14 +450,13 @@ export function BookService() {
                     {/* Project Details Textarea */}
                     <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
                       <label htmlFor="projectDetails" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
-                        Project Details *
+                        Project Details
                       </label>
                       <textarea
                         id="projectDetails"
                         name="projectDetails"
                         value={formData.projectDetails}
                         onChange={handleChange}
-                        required
                         rows={5}
                         placeholder="Tell us about your project..."
                         className="bg-white min-h-[120px] rounded-[8px] shrink-0 w-full px-3 py-3 outline-none resize-y font-['Anybody',_sans-serif] text-[13px] md:text-[14px] placeholder:text-[#848580]"
