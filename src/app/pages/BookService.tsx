@@ -60,7 +60,7 @@ export function BookService() {
     }
 
     // Validation — email or phone required; project details is optional
-    if (!formData.firstName || !formData.lastName || !formData.address || !formData.serviceType) {
+    if (!formData.firstName || !formData.lastName || !formData.address || !formData.city || !formData.province || !formData.serviceType) {
       setErrorMessage("Please fill in all required fields.");
       setFormState('error');
       return;
@@ -320,7 +320,7 @@ export function BookService() {
                     <div className="gap-[16px] md:gap-[24px] grid grid-cols-2 relative shrink-0 w-full">
                       <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
                         <label htmlFor="city" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
-                          City
+                          City *
                         </label>
                         <input
                           type="text"
@@ -328,7 +328,7 @@ export function BookService() {
                           name="city"
                           value={formData.city}
                           onChange={handleChange}
-                          placeholder="Optional"
+                          required
                           className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[14px] placeholder:text-[#848580]"
                           style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
                         />
@@ -336,13 +336,14 @@ export function BookService() {
 
                       <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
                         <label htmlFor="province" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
-                          Province
+                          Province *
                         </label>
                         <select
                           id="province"
                           name="province"
                           value={formData.province}
                           onChange={handleChange}
+                          required
                           className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[13px] md:text-[14px] cursor-pointer"
                           style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
                         >
