@@ -41,8 +41,8 @@ export function Footer() {
                 </div>
                 <div className="flex flex-col font-['Roboto_Mono',_sans-serif] justify-center leading-[1.2] relative shrink-0 text-[#cccccc] w-[146.13px]">
                   <Link to="/contact" className="mb-0 hover:text-white transition-colors">Contact Us</Link>
-                  <Link to="/faq" className="mb-0 hover:text-white transition-colors">FAQ</Link>
-                  <Link to="/terms" className="hover:text-white transition-colors">Terms</Link>
+                  <Link to="/faq" className="hover:text-white transition-colors">FAQ</Link>
+                  {/* Terms link removed while page is disabled -- see App.tsx */}
                 </div>
               </div>
             </div>

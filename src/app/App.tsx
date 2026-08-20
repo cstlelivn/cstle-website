@@ -72,7 +72,8 @@ export default function App() {
           <Route path="/book" element={<BookService />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/terms" element={<Terms />} />
+          {/* Terms disabled while being rewritten to match SHBA/RenoMark requirements -- see Terms.tsx, kept intact for reuse */}
+          <Route path="/terms" element={<Navigate to="/" replace />} />
           <Route path="/logo-test" element={<LogoTest />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-setup" element={<AdminSetup />} />
