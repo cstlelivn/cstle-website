@@ -260,6 +260,11 @@ export function Contact() {
               </div>
             </div>
           </div>
+
+          {/* Office -- by appointment only, kept low-key/small rather than a prominent address block */}
+          <p className="font-['Anybody',_sans-serif] leading-[1.64] text-[#848580] text-[11px] md:text-[12px] tracking-[-0.44px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
+            {siteInfo.office.line1}, {siteInfo.office.line2} — {siteInfo.office.note}
+          </p>
         </div>
 
         {/* Right Side - Contact Form */}

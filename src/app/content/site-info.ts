@@ -12,8 +12,17 @@ export const siteInfo = {
     phone: "(306) 371-5817",
     phoneFormatted: "306-371-5817",
   },
-  
-  serviceArea: "Saskatchewan and British Columbia",
+
+  // Office is by appointment only -- shown low-key on the Contact page only,
+  // not in the header/footer/hero, so it's findable by someone specifically
+  // looking for it without being a prominent, sitewide address.
+  office: {
+    line1: "1862 Angus Street",
+    line2: "Regina, SK",
+    note: "By appointment only",
+  },
+
+  serviceArea: "Saskatchewan",
   
   businessHours: {
     weekdays: "Monday - Friday :  9:00 AM - 5:00 PM",

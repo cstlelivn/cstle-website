@@ -349,7 +349,6 @@ export function BookService() {
                         >
                           <option value="">Select province</option>
                           <option value="Saskatchewan">Saskatchewan</option>
-                          <option value="British Columbia">British Columbia</option>
                           <option value="Other">Other</option>
                         </select>
                       </div>

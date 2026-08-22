@@ -52,7 +52,7 @@ export function Footer() {
               <div className="content-stretch flex gap-[10px] items-center justify-center md:justify-start relative shrink-0 w-full md:w-auto">
                 <div className="flex flex-col font-['Roboto_Mono',_sans-serif] justify-center leading-[0] relative shrink-0 text-[#eeeeee] text-[0px] uppercase w-full md:w-auto max-w-full">
                   <p className="leading-[1.2] text-[12px] md:text-[14px] text-center md:text-left break-words">
-                    <span>Saskatchewan & British Columbia</span>
+                    <span>Saskatchewan</span>
                   </p>
                 </div>
               </div>

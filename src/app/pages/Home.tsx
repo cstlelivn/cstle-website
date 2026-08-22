@@ -50,7 +50,7 @@ export function Home() {
               Install. Perfect. Finish.
             </h1>
             <p className="font-['Anybody',_sans-serif] leading-[1.5] relative text-[#191919]/70 text-center tracking-[-0.4px] max-w-[600px] text-[10px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
-              Basement finishing, interior renovations, flooring, millwork, painting, and detail-driven installations in Saskatchewan and British Columbia.
+              Basement finishing, interior renovations, flooring, millwork, painting, and detail-driven installations in Saskatchewan.
             </p>
           </div>
           
@@ -143,7 +143,7 @@ export function Home() {
         <div className="box-border content-stretch flex flex-col gap-[16px] items-center px-[20px] md:px-[40px] py-[48px] md:py-[72px] relative w-full max-w-[800px] mx-auto text-center">
           <p className="font-['Roboto_Mono',_sans-serif] text-[11px] text-[#848580] uppercase tracking-[0.12em]">Service Areas</p>
           <p className="font-['Anybody',_sans-serif] leading-[1.6] text-white text-[14px] md:text-[15px] tracking-[-0.56px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
-           Proudly serving Central Saskatchewan, British Columbia’s Lower Mainland, and the Fraser Valley. Contact us to confirm availability in your community.
+           Proudly serving Central Saskatchewan. Contact us to confirm availability in your community.
           </p>
         </div>
       </div>
