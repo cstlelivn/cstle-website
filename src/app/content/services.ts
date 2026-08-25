@@ -3,15 +3,21 @@
  * Shared across Contact and Book Service forms
  */
 
+// Kept in sync by hand with SERVICE_TYPES in the admin app
+// (Cstle Livn Web App 2/src/app/src/constants/serviceTypes.ts) -- same
+// company service structure, confirmed order: Commercial Renovation,
+// Residential Renovation, then Residential's own sub-services (Secondary
+// Suite Development, Kitchen Renovation, Bathroom Renovation, Basement
+// Development), then Finishing, then a catch-all Other.
 export const serviceTypes = [
-  "Basement Finishing & Development",
-  "Interior Renovation",
-  "Flooring Installation",
-  "Trim, Doors & Millwork Installation",
-  "Drywall Finishing & Interior Painting",
-  "Finishing, Refresh & Detail Work",
-  "Project Planning & Coordination",
-  "Other Services"
+  "Commercial Renovation",
+  "Residential Renovation",
+  "Secondary Suite Development",
+  "Kitchen Renovation",
+  "Bathroom Renovation",
+  "Basement Development",
+  "Finishing",
+  "Other"
 ];
 
 /**
