@@ -149,7 +149,33 @@ export function BasementProjectFit() {
 
   return (
     <div id="basement-project-fit" className="min-h-screen bg-white text-[#191919]" style={{ hyphens: "none", wordBreak: "normal" }}>
-      <style>{`#basement-project-fit, #basement-project-fit * { -webkit-hyphens: none !important; hyphens: none !important; word-break: normal; }`}</style>
+      <style>{`
+        #basement-project-fit, #basement-project-fit * { -webkit-hyphens: none !important; hyphens: none !important; word-break: normal; }
+        #basement-project-fit h1 {
+          color: #191919;
+          font-size: 24px;
+          font-variation-settings: 'wdth' 137 !important;
+          font-weight: 700;
+          letter-spacing: -0.96px !important;
+          line-height: 1.031 !important;
+        }
+        #basement-project-fit form h2 {
+          color: #191919;
+          font-size: 22px;
+          font-variation-settings: 'wdth' 137 !important;
+          font-weight: 700;
+          letter-spacing: -0.88px !important;
+          line-height: 1.031 !important;
+        }
+        @media (min-width: 640px) {
+          #basement-project-fit h1 { font-size: 32px; }
+          #basement-project-fit form h2 { font-size: 28px; }
+        }
+        @media (min-width: 768px) {
+          #basement-project-fit h1 { font-size: 39.075px; letter-spacing: -1.563px !important; }
+          #basement-project-fit form h2 { font-size: 32px; letter-spacing: -1.28px !important; }
+        }
+      `}</style>
       <section className="bg-gradient-to-b from-[#d9d9d9] to-white px-5 pb-10 pt-7 md:px-10 md:pb-14 md:pt-14">
         <Header />
         <div className="mx-auto mt-12 max-w-[860px] text-center md:mt-14">
@@ -157,7 +183,7 @@ export function BasementProjectFit() {
           <h1 className="mx-auto mt-5 max-w-[820px] font-['Anybody',_sans-serif] text-[29px] leading-[1.02] tracking-[-1.15px] sm:text-[34px] md:text-[46px] md:tracking-[-2px]" style={{ fontVariationSettings: "'wdth' 135", fontWeight: 700 }}>
             Plan the basement that works for you.
           </h1>
-          <p className="mx-auto mt-5 max-w-[650px] font-['Anybody',_sans-serif] text-[13px] leading-[1.6] sm:text-[14px] md:text-[16px]" style={{ fontVariationSettings: "'wdth' 135", fontWeight: 600 }}>
+          <p className="mx-auto mt-5 max-w-[620px] font-['Anybody',_sans-serif] text-[12px] leading-[1.55] tracking-[-0.4px] text-[#191919]/70 sm:text-[13px] md:text-[14px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
             Answer a few focused questions. We’ll review the fit, identify the right next step, and contact you. No high-pressure sales call.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase">
