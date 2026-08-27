@@ -155,7 +155,7 @@ export function BasementProjectFit() {
         <div className="mx-auto mt-12 max-w-[860px] text-center md:mt-14">
           <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.16em]">Regina basement development</p>
           <h1 className="mx-auto mt-5 max-w-[820px] font-['Anybody',_sans-serif] text-[29px] leading-[1.02] tracking-[-1.15px] sm:text-[34px] md:text-[46px] md:tracking-[-2px]" style={{ fontVariationSettings: "'wdth' 135", fontWeight: 700 }}>
-            Plan the basement your home needs next.
+            Plan a basement that works for you.
           </h1>
           <p className="mx-auto mt-5 max-w-[650px] font-['Anybody',_sans-serif] text-[13px] leading-[1.6] sm:text-[14px] md:text-[16px]" style={{ fontVariationSettings: "'wdth' 135", fontWeight: 600 }}>
             Answer a few focused questions. We’ll review the fit, identify the right next step, and contact you. No high-pressure sales call.
