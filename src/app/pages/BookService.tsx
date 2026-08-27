@@ -7,6 +7,8 @@ import { format } from "date-fns";
 import svgPaths from "../imports/svg-y52ip8r7g1";
 import { projectId, publicAnonKey } from '../utils/supabase/info';
 import { serviceTypes, timeSlots, formatTime12Hour } from "../content/services";
+import { captureAttribution } from "../revenue/intake";
+import { trackEvent } from "../utils/analytics";
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -72,13 +74,13 @@ export function BookService() {
       return;
     }
 
-    if (!validateEmail(formData.email)) {
+    if (formData.email && !validateEmail(formData.email)) {
       setErrorMessage("Please enter a valid email address.");
       setFormState('error');
       return;
     }
 
-    if (!validatePhone(formData.phone)) {
+    if (formData.phone && !validatePhone(formData.phone)) {
       setErrorMessage("Please enter a valid phone number.");
       setFormState('error');
       return;
@@ -101,6 +103,7 @@ export function BookService() {
       // visitor could insert but could never be handed back the row they
       // just created. return=minimal skips that read entirely: the
       // response body is empty on success, which is all this form needs.
+      const attribution = captureAttribution();
       const response = await fetch(`https://${projectId}.supabase.co/rest/v1/leads`, {
         method: "POST",
         headers: {
@@ -125,7 +128,9 @@ export function BookService() {
           consultation_time: formData.consultationTime || null,
           project_details: formData.projectDetails || null,
           notes: formData.projectDetails || null,
-          status: "new"
+          status: "new",
+          pipeline_stage: "New",
+          ...attribution
         })
       });
 
@@ -144,6 +149,7 @@ export function BookService() {
       }
 
       console.log('Successfully inserted booking lead');
+      trackEvent('generate_lead', { offer: 'general-estimate', service_type: formData.serviceType });
 
       // Success! Booking submitted
       // Note: Email notifications removed due to CORS. Admin can view leads in Supabase dashboard or admin app.
@@ -268,7 +274,7 @@ export function BookService() {
                     {/* Email */}
                     <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
                       <label htmlFor="email" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
-                        Email *
+                        Email
                       </label>
                       <input
                         type="email"
@@ -276,7 +282,6 @@ export function BookService() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        required
                         className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[14px]"
                         style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
                       />
@@ -285,7 +290,7 @@ export function BookService() {
                     {/* Phone Number */}
                     <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
                       <label htmlFor="phone" className="font-['Roboto_Mono',_sans-serif] leading-[1.2] relative shrink-0 text-[11px] text-neutral-950 uppercase" style={{ fontWeight: 700 }}>
-                        Phone Number *
+                        Phone Number
                       </label>
                       <input
                         type="tel"
@@ -293,7 +298,6 @@ export function BookService() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        required
                         className="bg-white h-[44px] md:h-[48px] rounded-[8px] shrink-0 w-full px-3 outline-none font-['Anybody',_sans-serif] text-[14px]"
                         style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}
                       />
