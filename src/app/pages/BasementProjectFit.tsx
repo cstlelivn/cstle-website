@@ -181,13 +181,14 @@ export function BasementProjectFit() {
         <div className="mx-auto mt-12 max-w-[860px] text-center md:mt-14">
           <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.16em]">Regina basement development</p>
           <h1 className="mx-auto mt-5 max-w-[820px] font-['Anybody',_sans-serif] text-[29px] leading-[1.02] tracking-[-1.15px] sm:text-[34px] md:text-[46px] md:tracking-[-2px]" style={{ fontVariationSettings: "'wdth' 135", fontWeight: 700 }}>
-            Plan the basement that works for you.
+            <span className="block">Plan the basement</span>
+            <span className="block">that works for you.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-[620px] font-['Anybody',_sans-serif] text-[12px] leading-[1.55] tracking-[-0.4px] text-[#191919]/70 sm:text-[13px] md:text-[14px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
-            Answer a few focused questions. We’ll review the fit, identify the right next step, and contact you. No high-pressure sales call.
+            Answer a few focused questions. We’ll review your project and recommend the right next step, without the sales pressure.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase">
-            <span>About 2 minutes</span><span>Clear next steps</span><span>Saskatchewan-based team</span>
+            <span>About 2 minutes</span><span>Clear next steps</span>
           </div>
         </div>
       </section>
