@@ -9,6 +9,7 @@ import { projectId, publicAnonKey } from '../utils/supabase/info';
 import { serviceTypes, timeSlots, formatTime12Hour } from "../content/services";
 import { captureAttribution } from "../revenue/intake";
 import { trackEvent } from "../utils/analytics";
+import { MARKETING_EMAIL_CONSENT_TEXT, marketingConsentEvidence } from "../revenue/consent";
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -25,7 +26,8 @@ export function BookService() {
     serviceType: "",
     consultationTime: "",
     projectDetails: "",
-    company: "" // Honeypot field
+    company: "", // Honeypot field
+    marketingEmailConsent: false
   });
   const [formState, setFormState] = useState<FormState>('idle');
   const [errorMessage, setErrorMessage] = useState("");
@@ -54,7 +56,8 @@ export function BookService() {
         serviceType: "",
         consultationTime: "",
         projectDetails: "",
-        company: ""
+        company: "",
+        marketingEmailConsent: false
       });
       setDate(undefined);
       setFormState('success');
@@ -130,6 +133,7 @@ export function BookService() {
           notes: formData.projectDetails || null,
           status: "new",
           pipeline_stage: "New",
+          qualification_answers: marketingConsentEvidence(formData.marketingEmailConsent, "/book"),
           ...attribution
         })
       });
@@ -165,7 +169,8 @@ export function BookService() {
         serviceType: "",
         consultationTime: "",
         projectDetails: "",
-        company: ""
+        company: "",
+        marketingEmailConsent: false
       });
       setDate(undefined);
       
@@ -480,6 +485,19 @@ export function BookService() {
                   tabIndex={-1}
                   autoComplete="off"
                 />
+
+                <label className="flex cursor-pointer items-start gap-3 rounded-[14px] border border-black/10 bg-white p-4 text-left">
+                  <input
+                    type="checkbox"
+                    name="marketingEmailConsent"
+                    checked={formData.marketingEmailConsent}
+                    onChange={(event) => setFormData({ ...formData, marketingEmailConsent: event.target.checked })}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-[#191919]"
+                  />
+                  <span className="font-['Anybody',_sans-serif] text-[12px] leading-[1.5] text-[#191919]/75 md:text-[13px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
+                    {MARKETING_EMAIL_CONSENT_TEXT} <span className="font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase">Optional</span>
+                  </span>
+                </label>
 
                 {/* Success Message */}
                 {formState === 'success' && (
