@@ -113,7 +113,7 @@ export function BasementDevelopmentRegina() {
           <div className="pb-1 lg:pb-8">
             <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.15em] text-[#191919]/70">Basement development · Regina</p>
             <h1 className="brand-heading brand-heading--hero mt-5 max-w-[620px]">
-              More room for the life you’re building.
+              More room for the life you want.
             </h1>
             <p className="body-copy mt-6 max-w-[570px] text-[15px] leading-[1.55] text-[#191919]/68 sm:text-[17px]">
               Plan a finished basement around how you want to live, earn or grow—then move forward with a clear, practical next step.
@@ -128,7 +128,7 @@ export function BasementDevelopmentRegina() {
             <img src={basementLivingImage} alt="A bright finished living space with comfortable seating" className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-[1.015] motion-reduce:transform-none" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-6 pb-6 pt-28 text-white md:px-8 md:pb-8">
               <p className="font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase tracking-[0.12em] text-white/70">Start with the outcome</p>
-              <p className="brand-heading brand-heading--feature mt-2 max-w-[520px]">Built around your reason, not just square footage.</p>
+              <p className="body-copy mt-2 max-w-[440px] text-[14px] leading-[1.45] text-white/82 md:text-[16px]">Built around your reason, not just square footage.</p>
             </div>
           </div>
         </div>
