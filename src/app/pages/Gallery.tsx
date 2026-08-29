@@ -4,76 +4,21 @@ import { galleryContent } from '../content/gallery-content';
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchGalleryAlbums, fetchGalleryItems, type GalleryAlbum, type GalleryItem } from '../lib/gallery';
-
-type ProofProfile = {
-  title: string;
-  status: 'In progress' | 'Completed work';
-  summary: string;
-  services: string[];
-};
-
-const proofProfiles: Array<{ matches: RegExp; profile: ProofProfile }> = [
-  {
-    matches: /(project[-_ ]?001|renovation project 001|trombley)/i,
-    profile: {
-      title: 'Lower‑Level Finishing in Progress',
-      status: 'In progress',
-      summary: 'Selected Cstle work showing painting, door and trim installation, flooring transitions and bathroom finishing as the lower level takes shape.',
-      services: ['Basement finishing', 'Painting', 'Flooring', 'Trim & doors', 'Bathrooms'],
-    },
-  },
-  {
-    matches: /(project[-_ ]?002|renovation project 002|lentil|daycare)/i,
-    profile: {
-      title: 'Basement Daycare Fit‑Out',
-      status: 'In progress',
-      summary: 'A practical lower level adapted for childcare, with durable surfaces, open circulation, a compact washroom and considered finishing details.',
-      services: ['Basement finishing', 'Flooring', 'Trim & doors', 'Bathrooms', 'Installations'],
-    },
-  },
-  {
-    matches: /(project[-_ ]?003|renovation project 003|buckingham)/i,
-    profile: {
-      title: 'Lower‑Level Suite Finishing',
-      status: 'In progress',
-      summary: 'Selected Cstle finishing work across a compact lower-level suite, including kitchen, bathroom, living, flooring, door and trim details.',
-      services: ['Basement finishing', 'Kitchens', 'Bathrooms', 'Flooring', 'Trim & doors'],
-    },
-  },
-  {
-    matches: /(project[-_ ]?004|p004|greenstone 1)/i,
-    profile: {
-      title: 'Lower‑Level Finish Continuity',
-      status: 'In progress',
-      summary: 'Late-stage Cstle work focused on consistent flooring, door and closet trim, hallway alignment and stair details across the lower level.',
-      services: ['Basement finishing', 'Flooring', 'Trim & doors', 'Painting'],
-    },
-  },
-  {
-    matches: /(project[-_ ]?005|p005|greenstone 2)/i,
-    profile: {
-      title: 'Basement Finishing Transformation',
-      status: 'In progress',
-      summary: 'A before-and-progress sequence documenting organized flooring, trim and stair installation as the basement moves toward its finished state.',
-      services: ['Basement finishing', 'Flooring', 'Trim & doors', 'Painting'],
-    },
-  },
-  {
-    matches: /(project[-_ ]?009|p009|stapleford)/i,
-    profile: {
-      title: 'Basement Progress to Finish',
-      status: 'Completed work',
-      summary: 'A real progress-to-result sequence showing drywall finishing, flooring, painting, stair work and kitchenette installation in Saskatchewan.',
-      services: ['Basement finishing', 'Flooring', 'Painting', 'Trim & doors', 'Installations'],
-    },
-  },
-];
+import { projectProofProfiles, type ProjectProofProfile } from '../content/project-proof';
 
 const serviceFilters = ['All projects', 'Basement finishing', 'Flooring', 'Painting', 'Trim & doors', 'Bathrooms', 'Kitchens'];
 
-function proofProfileFor(album: GalleryAlbum): ProofProfile | null {
+function proofProfileFor(album: GalleryAlbum): ProjectProofProfile | null {
   const searchable = `${album.slug} ${album.name}`;
-  return proofProfiles.find(({ matches }) => matches.test(searchable))?.profile ?? null;
+  const fallback = projectProofProfiles.find(({ matches }) => matches.test(searchable))?.profile;
+  if (!fallback && !album.summary && album.services.length === 0) return null;
+  if (fallback && !album.summary && album.services.length === 0 && !album.status) return fallback;
+  return {
+    title: album.name || fallback?.title || 'Completed Cstle Project',
+    status: album.status?.toLowerCase().includes('progress') ? 'In progress' : (fallback?.status ?? 'Completed project'),
+    summary: album.summary || fallback?.summary || 'Explore the details completed by Cstle across this project.',
+    services: album.services.length > 0 ? album.services : (fallback?.services ?? []),
+  };
 }
 
 // Album cover with cascading fallback: coverUrl → next images → placeholder
@@ -143,7 +88,7 @@ export function Gallery() {
       provider: { '@id': 'https://www.cstle.ca/#business' },
       mainEntity: {
         '@type': 'ItemList',
-        itemListElement: proofProfiles.map(({ profile }, index) => ({
+        itemListElement: projectProofProfiles.map(({ profile }, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           item: {
@@ -465,6 +410,11 @@ export function Gallery() {
                       crossOrigin="anonymous"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-200 group-hover/thumb:scale-105"
                     />
+                    {image.stage && (
+                      <span className={`absolute left-3 top-3 rounded-full px-2.5 py-1 font-['Roboto_Mono',_sans-serif] text-[7px] font-bold uppercase tracking-[0.08em] backdrop-blur-sm ${image.stage === 'Concept' ? 'bg-[#e5edc4]/95 text-[#354015]' : 'bg-black/70 text-white'}`}>
+                        {image.stage === 'Concept' ? 'Concept visualization' : image.stage}
+                      </span>
+                    )}
                     {image.title && (
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
                         <p className="font-['Anybody',_sans-serif] text-white text-[11px] md:text-[12px] tracking-[-0.4px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 600 }}>
@@ -551,8 +501,13 @@ export function Gallery() {
               crossOrigin="anonymous"
               className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"
             />
+            {activeAlbum.images[activeImageIndex].stage && (
+              <p className={`mt-4 rounded-full px-3 py-1.5 font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.1em] ${activeAlbum.images[activeImageIndex].stage === 'Concept' ? 'bg-[#e5edc4] text-[#354015]' : 'bg-white/12 text-white'}`}>
+                {activeAlbum.images[activeImageIndex].stage === 'Concept' ? 'Concept visualization' : activeAlbum.images[activeImageIndex].stage}
+              </p>
+            )}
             {activeAlbum.images[activeImageIndex].title && (
-              <p className="mt-4 font-['Anybody',_sans-serif] text-white text-[13px] md:text-[15px] tracking-[-0.4px] text-center" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 600 }}>
+              <p className="mt-3 font-['Anybody',_sans-serif] text-white text-[13px] md:text-[15px] tracking-[-0.4px] text-center" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 600 }}>
                 {activeAlbum.images[activeImageIndex].title}
               </p>
             )}

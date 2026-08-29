@@ -12,6 +12,7 @@ export type GalleryImage = {
   url: string;
   thumbnailUrl: string;
   position: number;
+  stage: 'Before' | 'Progress' | 'Completed' | 'Concept' | null;
 };
 
 export type GalleryAlbum = {
@@ -21,6 +22,9 @@ export type GalleryAlbum = {
   coverUrl: string | null;
   imageCount: number;
   images: GalleryImage[];
+  summary: string | null;
+  status: string | null;
+  services: string[];
 };
 
 export type GalleryItem = {
@@ -57,6 +61,23 @@ function sortImages(images: Record<string, unknown>[]): Record<string, unknown>[
                : typeof b.position === 'number' ? b.position : 9999;
     return aPos - bPos;
   });
+}
+
+function imageStage(row: Record<string, unknown>): GalleryImage['stage'] {
+  const explicit = typeof row.stage === 'string' ? row.stage.toLowerCase() : '';
+  const source = `${row.source_filename ?? ''} ${row.display_title ?? ''} ${row.title ?? ''}`.toLowerCase();
+  const value = explicit || source;
+  if (value.includes('concept') || value.includes('visualization')) return 'Concept';
+  if (value.includes('before') || value.includes('early stage')) return 'Before';
+  if (value.includes('progress') || value.includes('installation')) return 'Progress';
+  if (value.includes('complete') || value.includes('finished')) return 'Completed';
+  return null;
+}
+
+function albumServices(value: unknown): string[] {
+  if (Array.isArray(value)) return value.filter((item): item is string => typeof item === 'string' && Boolean(item.trim()));
+  if (typeof value !== 'string') return [];
+  return value.split(/[,|]/).map((item) => item.trim()).filter(Boolean);
 }
 
 /** Cover selection priority per spec */
@@ -157,6 +178,7 @@ export async function fetchGalleryAlbums(): Promise<GalleryAlbum[]> {
       position:     (typeof img.display_position === 'number'
                       ? img.display_position
                       : (img.position as number)) ?? 0,
+      stage:        imageStage(img),
     }));
 
     if (images.length === 0) continue;
@@ -168,6 +190,9 @@ export async function fetchGalleryAlbums(): Promise<GalleryAlbum[]> {
       coverUrl,
       imageCount: images.length,
       images,
+      summary:     typeof album.description === 'string' && album.description.trim() ? album.description : null,
+      status:      typeof album.status === 'string' && !['active', 'inactive'].includes(album.status.toLowerCase()) ? album.status : null,
+      services:    albumServices(album.service_categories ?? album.services ?? album.service_category),
     });
   }
 
