@@ -139,7 +139,7 @@ export function BasementDevelopmentRegina() {
           <div className="mx-auto max-w-[1180px]">
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
               <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">Choose the outcome</p>
-              <h2 className="brand-heading brand-heading--section max-w-[790px]">The right basement begins with what it needs to change for you.</h2>
+              <h2 className="brand-heading brand-heading--section max-w-[790px]">The right basement begins with what you need it to do.</h2>
             </div>
             <div className="mt-12 grid gap-4 md:grid-cols-3">
               {outcomes.map((outcome, index) => (
