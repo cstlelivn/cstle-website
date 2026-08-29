@@ -84,6 +84,14 @@ function filenameToDisplayTitle(filename: string): string {
   return `${cap(first)} — ${rest.map(cap).join(' ')}`;
 }
 
+function filenameStage(filename: string): 'before' | 'progress' | 'completed' | 'concept' {
+  const value = filename.toLowerCase();
+  if (value.includes('concept') || value.includes('visualization')) return 'concept';
+  if (value.includes('before') || value.includes('early')) return 'before';
+  if (value.includes('progress') || value.includes('installation') || value.includes('later')) return 'progress';
+  return 'completed';
+}
+
 function cap(w: string): string {
   return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
 }
@@ -244,12 +252,13 @@ async function syncImages(stats: SyncStats): Promise<void> {
       const file = sorted[i];
       const prev = byFileId.get(file.id);
 
-      const record = {
+      const displayTitle = filenameToDisplayTitle(file.name);
+      const record: Record<string, unknown> = {
         album_id:         album.id,
         drive_file_id:    file.id,
         source_filename:  file.name,
-        display_title:    filenameToDisplayTitle(file.name),
-        title:            filenameToDisplayTitle(file.name),
+        display_title:    displayTitle,
+        title:            displayTitle,
         url:              buildImageUrl(file.id),
         thumbnail_url:    buildThumbnailUrl(file.id),
         display_position: i,
@@ -259,6 +268,14 @@ async function syncImages(stats: SyncStats): Promise<void> {
         last_seen_at:     new Date().toISOString(),
         last_synced_at:   new Date().toISOString(),
       };
+
+      // Initial publishing metadata belongs only on first import. Omitting it
+      // on repeat syncs preserves every human edit made in Gallery Manager.
+      if (!prev) {
+        record.alt_text = displayTitle;
+        record.stage = filenameStage(file.name);
+        record.published = true;
+      }
 
       const { error: upsertErr } = await supabase
         .from('gallery_images')

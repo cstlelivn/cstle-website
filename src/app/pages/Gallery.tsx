@@ -1,12 +1,12 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { galleryContent } from '../content/gallery-content';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchGalleryAlbums, fetchGalleryItems, type GalleryAlbum, type GalleryItem } from '../lib/gallery';
 import { projectProofProfiles, type ProjectProofProfile } from '../content/project-proof';
 
-const serviceFilters = ['All projects', 'Basement finishing', 'Flooring', 'Painting', 'Trim & doors', 'Bathrooms', 'Kitchens'];
+const preferredServiceOrder = ['Basement finishing', 'Whole-home renovations', 'Commercial renovations', 'New construction', 'Kitchens', 'Bathrooms', 'Flooring', 'Painting', 'Trim & doors'];
 
 function proofProfileFor(album: GalleryAlbum): ProjectProofProfile | null {
   const searchable = `${album.slug} ${album.name}`;
@@ -74,6 +74,12 @@ export function Gallery() {
   const [activeService, setActiveService] = useState('All projects');
 
   useEffect(() => {
+    const schemaProjects = albums.length > 0
+      ? albums.map((album) => ({ album, profile: proofProfileFor(album) }))
+      : projectProofProfiles.map(({ profile }, index) => ({
+          album: { slug: `project-${index + 1}`, projectType: null, locationLabel: null } as GalleryAlbum,
+          profile,
+        }));
     const gallerySchema = document.createElement('script');
     gallerySchema.type = 'application/ld+json';
     gallerySchema.dataset.cstleSeo = 'project-gallery';
@@ -84,25 +90,30 @@ export function Gallery() {
       name: 'Cstle Construction Project Gallery',
       url: 'https://www.cstle.ca/gallery',
       description: galleryContent.hero.subtitle,
-      about: ['Basement finishing', 'Renovations', 'Flooring', 'Painting', 'Trim and doors', 'Bathrooms', 'Kitchens'],
+      about: albums.length > 0
+        ? [...new Set(albums.flatMap((album) => proofProfileFor(album)?.services ?? album.services))]
+        : ['Basement finishing', 'Whole-home renovations', 'Commercial renovations', 'New construction', 'Flooring', 'Painting', 'Trim and doors', 'Bathrooms', 'Kitchens'],
       provider: { '@id': 'https://www.cstle.ca/#business' },
       mainEntity: {
         '@type': 'ItemList',
-        itemListElement: projectProofProfiles.map(({ profile }, index) => ({
+        itemListElement: schemaProjects.map(({ album, profile }, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           item: {
             '@type': 'CreativeWork',
-            name: profile.title.replaceAll('‑', '-'),
-            description: profile.summary,
-            about: profile.services,
+            name: (profile?.title || album.name || 'Cstle construction project').replaceAll('‑', '-'),
+            description: profile?.summary,
+            about: profile?.services ?? [],
+            url: `https://www.cstle.ca/gallery#${album.slug}`,
+            contentLocation: album.locationLabel ? { '@type': 'Place', name: album.locationLabel } : undefined,
+            genre: album.projectType || undefined,
           },
         })),
       },
     });
     document.head.appendChild(gallerySchema);
     return () => gallerySchema.remove();
-  }, []);
+  }, [albums]);
 
   useEffect(() => {
     async function loadGalleryData() {
@@ -173,6 +184,12 @@ export function Gallery() {
   const visibleAlbums = activeService === 'All projects'
     ? albums
     : albums.filter((album) => proofProfileFor(album)?.services.includes(activeService));
+  const serviceFilters = useMemo(() => {
+    const available = new Set(albums.flatMap((album) => proofProfileFor(album)?.services ?? album.services));
+    const ordered = preferredServiceOrder.filter((service) => available.has(service));
+    const remaining = [...available].filter((service) => !ordered.includes(service)).sort((a, b) => a.localeCompare(b));
+    return ['All projects', ...ordered, ...remaining];
+  }, [albums]);
 
   return (
     <div className="bg-white content-stretch flex flex-col gap-[40px] md:gap-[69px] items-start relative min-h-screen w-full">
@@ -299,7 +316,7 @@ export function Gallery() {
                       <p className="absolute bottom-4 left-4 rounded-full bg-black/70 px-3 py-1.5 font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.09em] text-white backdrop-blur-sm">{profile?.status ?? `${album.imageCount} photos`}</p>
                     </div>
                     <div className="flex flex-1 flex-col p-4 md:p-5 w-full hyphens-none [overflow-wrap:normal] [word-break:normal]">
-                      <p className="font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.12em] text-[#536329]">Selected Cstle work · {album.imageCount} {album.imageCount === 1 ? 'image' : 'images'}</p>
+                      <p className="font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.12em] text-[#536329]">{[album.projectType || 'Selected Cstle work', album.locationLabel, `${album.imageCount} ${album.imageCount === 1 ? 'image' : 'images'}`].filter(Boolean).join(' · ')}</p>
                       <h3 className="mt-2 font-['Anybody',_sans-serif] text-[13px] leading-[1.2] tracking-[-0.035em] text-[#191919]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 700 }}>{profile?.title ?? album.name}</h3>
                       {profile ? (
                         <>
@@ -406,7 +423,7 @@ export function Gallery() {
                   >
                     <img
                       src={image.thumbnailUrl}
-                      alt={image.title}
+                      alt={image.altText}
                       referrerPolicy="no-referrer"
                       loading="lazy"
                       crossOrigin="anonymous"
@@ -498,7 +515,7 @@ export function Gallery() {
           >
             <img
               src={activeAlbum.images[activeImageIndex].url}
-              alt={activeAlbum.images[activeImageIndex].title}
+              alt={activeAlbum.images[activeImageIndex].altText}
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
               className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"

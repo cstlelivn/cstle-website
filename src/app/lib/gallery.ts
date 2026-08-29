@@ -13,6 +13,8 @@ export type GalleryImage = {
   thumbnailUrl: string;
   position: number;
   stage: 'Before' | 'Progress' | 'Completed' | 'Concept' | null;
+  altText: string;
+  caption: string | null;
 };
 
 export type GalleryAlbum = {
@@ -25,6 +27,8 @@ export type GalleryAlbum = {
   summary: string | null;
   status: string | null;
   services: string[];
+  projectType: string | null;
+  locationLabel: string | null;
 };
 
 export type GalleryItem = {
@@ -160,7 +164,8 @@ export async function fetchGalleryAlbums(): Promise<GalleryAlbum[]> {
 
     // Post-migration: is_active filter (column will be undefined pre-migration → keep all)
     const activeImgs = rawImgs.filter((img) =>
-      img.is_active === undefined || img.is_active === null || img.is_active === true
+      (img.is_active === undefined || img.is_active === null || img.is_active === true) &&
+      (img.published === undefined || img.published === null || img.published === true)
     );
 
     const sorted = sortImages(activeImgs);
@@ -179,6 +184,8 @@ export async function fetchGalleryAlbums(): Promise<GalleryAlbum[]> {
                       ? img.display_position
                       : (img.position as number)) ?? 0,
       stage:        imageStage(img),
+      altText:      (img.alt_text ?? img.display_title ?? img.title ?? 'Cstle construction project image') as string,
+      caption:      typeof img.caption === 'string' && img.caption.trim() ? img.caption : null,
     }));
 
     if (images.length === 0) continue;
@@ -193,6 +200,8 @@ export async function fetchGalleryAlbums(): Promise<GalleryAlbum[]> {
       summary:     typeof album.description === 'string' && album.description.trim() ? album.description : null,
       status:      typeof album.status === 'string' && !['active', 'inactive'].includes(album.status.toLowerCase()) ? album.status : null,
       services:    albumServices(album.service_categories ?? album.services ?? album.service_category),
+      projectType: typeof album.project_type === 'string' && album.project_type.trim() ? album.project_type : null,
+      locationLabel: typeof album.location_label === 'string' && album.location_label.trim() ? album.location_label : null,
     });
   }
 
