@@ -16,12 +16,81 @@ import { AdminSetup } from "./pages/AdminSetup";
 import { trackPageView, GA_MEASUREMENT_ID } from "./utils/analytics";
 import { rememberAttribution } from "./revenue/intake";
 
+const publicPageSeo: Record<string, { title: string; description: string }> = {
+  "/": {
+    title: "Cstle Construction | Renovations & Basement Development Regina",
+    description: "Cstle Construction provides basement development, renovations and detail-driven interior finishing in Regina and surrounding Saskatchewan communities.",
+  },
+  "/basement-development-regina": {
+    title: "Basement Development Regina | Cstle Construction",
+    description: "Plan a finished basement for family living, a legal suite, shortlet use or entertainment with Cstle Construction in Regina, Saskatchewan.",
+  },
+  "/book/basement-development-regina": {
+    title: "Basement Project Fit | Cstle Construction Regina",
+    description: "Share your Regina basement goals, investment range and timing in a focused Project Fit assessment from Cstle Construction.",
+  },
+  "/gallery": {
+    title: "Construction & Renovation Work | Cstle Construction Regina",
+    description: "Explore selected renovation, basement and interior finishing work completed by Cstle Construction in Regina and Saskatchewan.",
+  },
+  "/mission": {
+    title: "Our Approach | Cstle Construction Regina",
+    description: "Learn how Cstle Construction approaches renovation, installation and finishing work with practical planning and attention to detail.",
+  },
+  "/contact": {
+    title: "Contact Cstle Construction | Regina, Saskatchewan",
+    description: "Contact Cstle Construction in Regina about basement development, renovations, commercial interiors and detail-driven finishing work.",
+  },
+  "/faq": {
+    title: "Construction & Renovation FAQ | Cstle Construction Regina",
+    description: "Answers about working with Cstle Construction on renovations, basement development and finishing projects in Regina and Saskatchewan.",
+  },
+  "/book": {
+    title: "Request a Construction Estimate | Cstle Construction Regina",
+    description: "Tell Cstle Construction about your Regina-area renovation, basement, commercial interior or finishing project and request the right next step.",
+  },
+  "/reviews": {
+    title: "Client Reviews | Cstle Construction Regina",
+    description: "Read verified client feedback about Cstle Construction projects in Regina and Saskatchewan as it becomes available.",
+  },
+};
+
+function upsertMeta(selector: string, attribute: "name" | "property", key: string, content: string) {
+  let element = document.querySelector<HTMLMetaElement>(selector);
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attribute, key);
+    document.head.appendChild(element);
+  }
+  element.content = content;
+}
+
 // Analytics wrapper component to track page views
 function AnalyticsWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   useEffect(() => {
     rememberAttribution();
+    const seo = publicPageSeo[location.pathname] ?? publicPageSeo["/"];
+    const isPrivateUtility = ["/admin", "/admin-setup", "/logo-test"].includes(location.pathname);
+    const canonicalPath = publicPageSeo[location.pathname] ? location.pathname : "/";
+    const canonicalUrl = `https://www.cstle.ca${canonicalPath === "/" ? "/" : canonicalPath}`;
+
+    document.title = seo.title;
+    upsertMeta('meta[name="description"]', "name", "description", seo.description);
+    upsertMeta('meta[name="robots"]', "name", "robots", isPrivateUtility ? "noindex, nofollow" : "index, follow");
+    upsertMeta('meta[property="og:title"]', "property", "og:title", seo.title);
+    upsertMeta('meta[property="og:description"]', "property", "og:description", seo.description);
+    upsertMeta('meta[property="og:url"]', "property", "og:url", canonicalUrl);
+
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl;
+
     // Track page view on route change
     trackPageView(location.pathname + location.search);
   }, [location]);

@@ -56,37 +56,29 @@ function ConversionLink({ location, light = false, children }: { location: strin
 
 export function BasementDevelopmentRegina() {
   useEffect(() => {
-    const previousTitle = document.title;
     const description = "Plan a finished basement for family living, a legal suite, shortlet use or entertainment with Cstle in Regina, Saskatchewan.";
-    document.title = "Basement Development Regina | Cstle Livn";
-
-    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    const createdMeta = !meta;
-    const previousDescription = meta?.content;
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "description";
-      document.head.appendChild(meta);
-    }
-    meta.content = description;
-
-    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    const createdCanonical = !canonical;
-    const previousCanonical = canonical?.href;
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-    }
-    canonical.href = "https://www.cstle.ca/basement-development-regina";
+    const serviceSchema = document.createElement("script");
+    serviceSchema.type = "application/ld+json";
+    serviceSchema.dataset.cstleSeo = "basement-development-regina";
+    serviceSchema.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": "https://www.cstle.ca/basement-development-regina#service",
+      name: "Basement Development in Regina",
+      serviceType: "Basement development and finishing",
+      url: "https://www.cstle.ca/basement-development-regina",
+      provider: { "@id": "https://www.cstle.ca/#business" },
+      areaServed: ["Regina", "White City", "Emerald Park", "Pilot Butte", "Balgonie"].map((name) => ({
+        "@type": "City",
+        name,
+      })),
+      description,
+    });
+    document.head.appendChild(serviceSchema);
     trackEvent("basement_funnel_view", { offer: "regina-basement-development" });
 
     return () => {
-      document.title = previousTitle;
-      if (createdMeta) meta?.remove();
-      else if (meta && previousDescription !== undefined) meta.content = previousDescription;
-      if (createdCanonical) canonical?.remove();
-      else if (canonical && previousCanonical) canonical.href = previousCanonical;
+      serviceSchema.remove();
     };
   }, []);
 

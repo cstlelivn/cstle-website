@@ -5,6 +5,8 @@
 
 export const siteInfo = {
   name: "Cstle Livn",
+  searchName: "Cstle Construction",
+  legalName: "Cstle Livn Inc.",
   tagline: "Install. Perfect. Finish.",
   
   contact: {
@@ -30,8 +32,7 @@ export const siteInfo = {
   },
   
   social: {
-    // Add social media links here when available
-    instagram: "",
+    instagram: "https://www.instagram.com/cstlelivn/",
     facebook: "",
     linkedin: "",
   }
