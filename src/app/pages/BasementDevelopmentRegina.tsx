@@ -128,7 +128,7 @@ export function BasementDevelopmentRegina() {
             <img src={basementLivingImage} alt="A bright finished living space with comfortable seating" className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-[1.015] motion-reduce:transform-none" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-6 pb-6 pt-28 text-white md:px-8 md:pb-8">
               <p className="font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase tracking-[0.12em] text-white/70">Start with the outcome</p>
-              <p className="brand-heading brand-heading--feature mt-2 max-w-[520px]">Not just more square footage. More useful life at home.</p>
+              <p className="brand-heading brand-heading--feature mt-2 max-w-[520px]">Built around your reason, not just square footage.</p>
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function BasementDevelopmentRegina() {
         <section className="px-5 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1180px]">
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-              <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">Built around your reason, not just square footage.</p>
+              <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">Choose the outcome</p>
               <h2 className="brand-heading brand-heading--section max-w-[790px]">The right basement begins with what it needs to change for you.</h2>
             </div>
             <div className="mt-12 grid gap-4 md:grid-cols-3">
