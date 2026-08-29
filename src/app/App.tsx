@@ -6,6 +6,7 @@ import { Mission } from "./pages/Mission";
 import { Contact } from "./pages/Contact";
 import { BookService } from "./pages/BookService";
 import { BasementProjectFit } from "./pages/BasementProjectFit";
+import { BasementDevelopmentRegina } from "./pages/BasementDevelopmentRegina";
 import { Reviews } from "./pages/Reviews";
 import { FAQ } from "./pages/FAQ";
 import { Terms } from "./pages/Terms";
@@ -72,6 +73,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/book" element={<BookService />} />
           <Route path="/book/basement-development-regina" element={<BasementProjectFit />} />
+          <Route path="/basement-development-regina" element={<BasementDevelopmentRegina />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/faq" element={<FAQ />} />
           {/* Terms disabled while being rewritten to match SHBA/RenoMark requirements -- see Terms.tsx, kept intact for reuse */}

@@ -110,22 +110,31 @@ export function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] md:gap-[20px] w-full">
             {[
-              { title: "Basement Finishing & Development", desc: "Planning and completing functional basement spaces through the final finish." },
+              { title: "Basement Finishing & Development", desc: "Planning and completing functional basement spaces through the final finish.", href: "/basement-development-regina" },
               { title: "Interior Renovations", desc: "Focused improvements for individual rooms and larger interior transformations." },
               { title: "Flooring & Millwork Installation", desc: "Precise installation of flooring, trim, baseboards, doors, and interior millwork." },
               { title: "Painting & Drywall Finishing", desc: "Surface preparation, drywall finishing, and clean interior painting." },
               { title: "Final Finishing & Detail Work", desc: "The finishing work that brings the completed space together." },
               { title: "Project Planning & Coordination", desc: "Clear project planning, scheduling, and trade coordination to keep the work organized from start to finish." },
-            ].map((service) => (
-              <div key={service.title} className="bg-white rounded-[16px] md:rounded-[20px] px-[24px] py-[24px] md:py-[28px] flex flex-col gap-[8px]">
+            ].map((service) => {
+              const content = <>
                 <p className="font-['Anybody',_sans-serif] leading-[1.3] text-[#191919] text-[14px] md:text-[15px] tracking-[-0.56px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 700 }}>
                   {service.title}
                 </p>
                 <p className="font-['Anybody',_sans-serif] leading-[1.6] text-[#191919]/60 text-[13px] md:text-[14px] tracking-[-0.4px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
                   {service.desc}
                 </p>
-              </div>
-            ))}
+              </>;
+
+              return service.href ? (
+                <Link key={service.title} to={service.href} className="group bg-white rounded-[16px] md:rounded-[20px] px-[24px] py-[24px] md:py-[28px] flex flex-col gap-[8px] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(0,0,0,0.09)] motion-reduce:transform-none">
+                  {content}
+                  <span className="mt-2 font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase text-[#536329]">Explore Regina basements →</span>
+                </Link>
+              ) : (
+                <div key={service.title} className="bg-white rounded-[16px] md:rounded-[20px] px-[24px] py-[24px] md:py-[28px] flex flex-col gap-[8px]">{content}</div>
+              );
+            })}
           </div>
           <Link
             to="/book"
