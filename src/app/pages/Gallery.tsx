@@ -208,19 +208,21 @@ export function Gallery() {
 
       {!loading && albums.length > 0 && viewMode === 'albums' && (
         <section className="w-full max-w-[1800px] mx-auto px-[20px] md:px-[40px] lg:px-[60px]" aria-label="Filter projects by service">
-          <div className="border-y border-black/[0.08] py-5 flex flex-wrap items-center gap-2">
-            <span className="mr-2 font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase tracking-[0.13em] text-[#191919]/50">Explore by service</span>
-            {serviceFilters.map((service) => (
-              <button
-                key={service}
-                type="button"
-                onClick={() => setActiveService(service)}
-                aria-pressed={activeService === service}
-                className={`rounded-full border px-4 py-2 font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase tracking-[0.04em] transition-colors ${activeService === service ? 'border-[#536329] bg-[#536329] text-white' : 'border-black/10 bg-white text-[#191919]/65 hover:border-[#536329]/45 hover:text-[#536329]'}`}
-              >
-                {service}
-              </button>
-            ))}
+          <div className="border-y border-black/[0.08] py-5 flex flex-col items-center justify-center gap-3">
+            <span className="font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.13em] text-[#191919]/45">Explore by service</span>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {serviceFilters.map((service) => (
+                <button
+                  key={service}
+                  type="button"
+                  onClick={() => setActiveService(service)}
+                  aria-pressed={activeService === service}
+                  className={`rounded-full border px-4 py-2 font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.04em] transition-colors ${activeService === service ? 'border-[#536329] bg-[#536329] text-white' : 'border-black/10 bg-white text-[#191919]/65 hover:border-[#536329]/45 hover:text-[#536329]'}`}
+                >
+                  {service}
+                </button>
+              ))}
+            </div>
           </div>
         </section>
       )}
@@ -228,11 +230,11 @@ export function Gallery() {
       {/* View Mode Toggle */}
       {!loading && (albums.length > 0 || allImages.length > 0) && (
         <div className="relative shrink-0 w-full max-w-[1800px] mx-auto">
-          <div className="flex justify-end px-[20px] md:px-[40px] lg:px-[60px]">
+          <div className="flex justify-center px-[20px] md:px-[40px] lg:px-[60px]">
             <button
               type="button"
               onClick={() => setViewMode(viewMode === 'albums' ? 'all' : 'albums')}
-              className="border border-[#191919]/10 rounded-full px-4 py-2 text-[12px] md:text-[13px] font-['Anybody',_sans-serif] tracking-[-0.4px] hover:bg-[#191919] hover:text-white transition-colors duration-200"
+              className="border border-[#191919]/10 rounded-full px-4 py-2 text-[10px] font-['Anybody',_sans-serif] tracking-[-0.3px] hover:bg-[#191919] hover:text-white transition-colors duration-200"
               style={{ fontVariationSettings: "'wdth' 137", fontWeight: 600 }}
             >
               {viewMode === 'albums' ? 'View all images' : 'Show albums'}
@@ -289,22 +291,22 @@ export function Gallery() {
                   <div 
                     key={album.id}
                     onClick={() => setActiveAlbum(album)}
-                    className="bg-white box-border flex h-full flex-col min-h-[440px] items-start overflow-hidden relative rounded-[18px] md:rounded-[22px] border border-black/[0.06] shadow-[0_8px_26px_rgba(0,0,0,0.06)] group cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-[#536329]/25 hover:shadow-[0_22px_50px_rgba(0,0,0,0.11)]"
+                    className="bg-white box-border flex h-full flex-col min-h-[430px] items-start overflow-hidden relative rounded-[18px] md:rounded-[22px] border border-black/[0.06] shadow-[0_8px_26px_rgba(0,0,0,0.06)] group cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-[#536329]/25 hover:shadow-[0_22px_50px_rgba(0,0,0,0.11)]"
                   >
-                    <div className="h-[260px] overflow-hidden relative shrink-0 w-full">
+                    <div className="h-[300px] lg:h-[330px] overflow-hidden relative shrink-0 w-full">
                       <AlbumCoverImage album={album} />
                       <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/45 to-transparent pointer-events-none" />
                       <p className="absolute bottom-4 left-4 rounded-full bg-black/70 px-3 py-1.5 font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.09em] text-white backdrop-blur-sm">{profile?.status ?? `${album.imageCount} photos`}</p>
                     </div>
-                    <div className="flex flex-1 flex-col p-5 md:p-6 w-full">
+                    <div className="flex flex-1 flex-col p-4 md:p-5 w-full hyphens-none [overflow-wrap:normal] [word-break:normal]">
                       <p className="font-['Roboto_Mono',_sans-serif] text-[8px] font-bold uppercase tracking-[0.12em] text-[#536329]">Selected Cstle work · {album.imageCount} {album.imageCount === 1 ? 'image' : 'images'}</p>
-                      <h3 className="brand-heading brand-heading--card mt-3">{profile?.title ?? album.name}</h3>
+                      <h3 className="mt-2 font-['Anybody',_sans-serif] text-[13px] leading-[1.2] tracking-[-0.035em] text-[#191919]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 700 }}>{profile?.title ?? album.name}</h3>
                       {profile ? (
                         <>
-                          <p className="mt-3 font-['Anybody',_sans-serif] text-[12px] leading-[1.5] tracking-[-0.02em] text-[#191919]/60" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>{profile.summary}</p>
-                          <div className="mt-auto pt-5 flex flex-wrap gap-1.5">{profile.services.slice(0, 3).map((service) => <span key={service} className="rounded-full bg-[#eef1e3] px-2.5 py-1 font-['Roboto_Mono',_sans-serif] text-[7px] font-bold uppercase tracking-[0.04em] text-[#536329]">{service}</span>)}</div>
+                          <p className="mt-2 font-['Anybody',_sans-serif] text-[10px] leading-[1.45] tracking-[-0.015em] text-[#191919]/55" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>{profile.summary}</p>
+                          <div className="mt-auto pt-4 flex flex-wrap gap-1.5">{profile.services.slice(0, 3).map((service) => <span key={service} className="rounded-full bg-[#eef1e3] px-2.5 py-1 font-['Roboto_Mono',_sans-serif] text-[6px] font-bold uppercase tracking-[0.04em] text-[#536329]">{service}</span>)}</div>
                         </>
-                      ) : <p className="mt-3 font-['Anybody',_sans-serif] text-[12px] leading-[1.5] text-[#191919]/55" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>Open this project to review the available work photographs.</p>}
+                      ) : <p className="mt-2 font-['Anybody',_sans-serif] text-[10px] leading-[1.45] text-[#191919]/55" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>Open this project to review the available work photographs.</p>}
                     </div>
                   </div>
                   );
