@@ -123,7 +123,7 @@ export function BasementDevelopmentRegina() {
         <section className="px-5 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1180px]">
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-              <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">Built around your reason</p>
+              <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">Built around your reason, not just square footage.</p>
               <h2 className="brand-heading brand-heading--section max-w-[790px]">The right basement begins with what it needs to change for you.</h2>
             </div>
             <div className="mt-12 grid gap-4 md:grid-cols-3">
