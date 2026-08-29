@@ -2,6 +2,20 @@
 
 :root {
   --font-size: 16px;
+  /* Brand typography tokens. A future rebrand should begin here rather than
+     changing font declarations inside individual pages or components. */
+  --brand-font-display: "Anybody", sans-serif;
+  --brand-font-ui: "Roboto Mono", monospace;
+  --brand-display-width: 137;
+  --brand-display-stretch: 137%;
+  --brand-display-weight: 700;
+  --brand-display-tracking: -0.04em;
+  --brand-display-leading: 1.031;
+  --brand-display-hero: clamp(1.75rem, 2.8vw, 2.4421875rem);
+  --brand-display-section: clamp(1.6875rem, 2.35vw, 2rem);
+  --brand-display-feature: clamp(1.375rem, 2vw, 1.8125rem);
+  --brand-display-card: clamp(1.375rem, 1.8vw, 1.625rem);
+  --brand-display-question: clamp(1.125rem, 1.5vw, 1.3125rem);
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -40,6 +54,24 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
+
+/* Semantic heading level and visual size are intentionally separate. An H2
+   may use the hero scale when the information hierarchy calls for it, while
+   screen readers still receive the correct document outline. */
+.brand-heading {
+  font-family: var(--brand-font-display);
+  font-variation-settings: "wdth" var(--brand-display-width);
+  font-stretch: var(--brand-display-stretch);
+  font-weight: var(--brand-display-weight);
+  letter-spacing: var(--brand-display-tracking);
+  line-height: var(--brand-display-leading);
+}
+
+.brand-heading--hero { font-size: var(--brand-display-hero); }
+.brand-heading--section { font-size: var(--brand-display-section); }
+.brand-heading--feature { font-size: var(--brand-display-feature); }
+.brand-heading--card { font-size: var(--brand-display-card); }
+.brand-heading--question { font-size: var(--brand-display-question); }
 
 .dark {
   --background: oklch(0.145 0 0);

@@ -84,13 +84,6 @@ export function BasementDevelopmentRegina() {
           word-break: normal !important;
           overflow-wrap: normal;
         }
-        #regina-basement-funnel .display-heading {
-          font-family: 'Anybody', sans-serif;
-          font-variation-settings: 'wdth' 137;
-          font-weight: 700;
-          letter-spacing: -0.04em;
-          line-height: 1.031;
-        }
         #regina-basement-funnel .body-copy {
           font-family: 'Anybody', sans-serif;
           font-variation-settings: 'wdth' 137;
@@ -104,7 +97,7 @@ export function BasementDevelopmentRegina() {
         <div className="mx-auto grid max-w-[1280px] items-end gap-10 pt-14 md:pt-20 lg:grid-cols-[0.96fr_1.04fr] lg:gap-14">
           <div className="pb-1 lg:pb-8">
             <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.15em] text-[#191919]/70">Basement development · Regina</p>
-            <h1 className="display-heading mt-5 max-w-[620px] text-[28px] sm:text-[34px] lg:text-[39.075px]">
+            <h1 className="brand-heading brand-heading--hero mt-5 max-w-[620px]">
               More room for the life you’re building.
             </h1>
             <p className="body-copy mt-6 max-w-[570px] text-[15px] leading-[1.55] text-[#191919]/68 sm:text-[17px]">
@@ -120,7 +113,7 @@ export function BasementDevelopmentRegina() {
             <img src={basementLivingImage} alt="A bright finished living space with comfortable seating" className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-[1.015] motion-reduce:transform-none" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-6 pb-6 pt-28 text-white md:px-8 md:pb-8">
               <p className="font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase tracking-[0.12em] text-white/70">Start with the outcome</p>
-              <p className="display-heading mt-2 max-w-[520px] text-[22px] md:text-[29px]">Not just more square footage. More useful life at home.</p>
+              <p className="brand-heading brand-heading--feature mt-2 max-w-[520px]">Not just more square footage. More useful life at home.</p>
             </div>
           </div>
         </div>
@@ -131,7 +124,7 @@ export function BasementDevelopmentRegina() {
           <div className="mx-auto max-w-[1180px]">
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
               <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">Built around your reason</p>
-              <h2 className="display-heading max-w-[790px] text-[27px] sm:text-[32px] lg:text-[39.075px]">The right basement begins with what it needs to change for you.</h2>
+              <h2 className="brand-heading brand-heading--section max-w-[790px]">The right basement begins with what it needs to change for you.</h2>
             </div>
             <div className="mt-12 grid gap-4 md:grid-cols-3">
               {outcomes.map((outcome, index) => (
@@ -140,7 +133,7 @@ export function BasementDevelopmentRegina() {
                     <p className="font-['Roboto_Mono',_sans-serif] text-[9px] font-bold uppercase tracking-[0.1em] text-[#191919]/55">0{index + 1} · {outcome.label}</p>
                     <span className="h-2.5 w-2.5 rounded-full bg-[#899a4a] opacity-55 transition-opacity group-hover:opacity-100" />
                   </div>
-                  <h3 className="display-heading mt-16 text-[22px] md:mt-20 md:text-[26px]">{outcome.title}</h3>
+                  <h3 className="brand-heading brand-heading--card mt-16 md:mt-20">{outcome.title}</h3>
                   <p className="body-copy mt-4 text-[14px] leading-[1.55] text-[#191919]/63">{outcome.body}</p>
                 </article>
               ))}
@@ -155,7 +148,7 @@ export function BasementDevelopmentRegina() {
             </div>
             <div>
               <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#b7c679]">Clear before complicated</p>
-              <h2 className="display-heading mt-5 max-w-[600px] text-[27px] sm:text-[32px] lg:text-[39.075px]">Know the next move before committing to the whole project.</h2>
+              <h2 className="brand-heading brand-heading--section mt-5 max-w-[600px]">Know the next move before committing to the whole project.</h2>
               <p className="body-copy mt-6 max-w-[520px] text-[15px] leading-[1.6] text-white/64">You should not need a construction vocabulary to begin. Project Fit gives us the few details that actually shape the recommendation.</p>
               <ul className="mt-8 space-y-4">
                 {["Your intended use and priorities", "A workable investment range", "Your preferred timing and readiness", "The right next conversation—not a generic sales call"].map((item) => (
@@ -170,12 +163,12 @@ export function BasementDevelopmentRegina() {
         <section className="px-5 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1180px]">
             <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">One connected path</p>
-            <h2 className="display-heading mt-5 max-w-[720px] text-[27px] sm:text-[32px] lg:text-[39.075px]">From an idea downstairs to a useful plan forward.</h2>
+            <h2 className="brand-heading brand-heading--section mt-5 max-w-[720px]">From an idea downstairs to a useful plan forward.</h2>
             <div className="mt-12 grid border-y border-black/10 md:grid-cols-3">
               {process.map(([number, title, body], index) => (
                 <article key={number} className={`py-8 md:min-h-[285px] md:px-8 md:py-10 ${index > 0 ? "border-t border-black/10 md:border-l md:border-t-0" : ""}`}>
                   <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold text-[#536329]">{number}</p>
-                  <h3 className="display-heading mt-12 text-[22px] md:text-[26px]">{title}</h3>
+                  <h3 className="brand-heading brand-heading--card mt-12">{title}</h3>
                   <p className="body-copy mt-4 max-w-[300px] text-[14px] leading-[1.55] text-[#191919]/62">{body}</p>
                 </article>
               ))}
@@ -187,14 +180,14 @@ export function BasementDevelopmentRegina() {
           <div className="mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div>
               <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#536329]">Before you begin</p>
-              <h2 className="display-heading mt-5 max-w-[480px] text-[27px] sm:text-[32px] lg:text-[39.075px]">The questions people usually ask first.</h2>
+              <h2 className="brand-heading brand-heading--section mt-5 max-w-[480px]">The questions people usually ask first.</h2>
               <p className="body-copy mt-5 max-w-[440px] text-[14px] leading-[1.6] text-[#191919]/62">Useful answers now make the first conversation better later.</p>
             </div>
             <div className="border-t border-black/15">
               {questions.map(([question, answer]) => (
                 <details key={question} className="group border-b border-black/15 py-1">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#536329] focus-visible:ring-offset-4 focus-visible:ring-offset-[#e5edc4]">
-                    <span className="display-heading text-[18px] sm:text-[21px]">{question}</span>
+                    <span className="brand-heading brand-heading--question">{question}</span>
                     <ChevronDown size={18} className="shrink-0 transition-transform duration-300 group-open:rotate-180" />
                   </summary>
                   <p className="body-copy max-w-[720px] pb-6 pr-8 text-[14px] leading-[1.6] text-[#191919]/65">{answer}</p>
@@ -207,7 +200,7 @@ export function BasementDevelopmentRegina() {
         <section className="bg-[#f5f5f3] px-5 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1180px] rounded-[28px] bg-[#191919] px-6 py-14 text-center text-white shadow-[0_28px_80px_rgba(0,0,0,0.16)] md:rounded-[38px] md:px-14 md:py-20">
             <p className="font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.14em] text-[#b7c679]">Your basement · Your next move</p>
-            <h2 className="display-heading mx-auto mt-5 max-w-[820px] text-[28px] sm:text-[34px] lg:text-[39.075px]">Plan the basement that works for you.</h2>
+            <h2 className="brand-heading brand-heading--section mx-auto mt-5 max-w-[820px]">Plan the basement that works for you.</h2>
             <p className="body-copy mx-auto mt-5 max-w-[570px] text-[14px] leading-[1.6] text-white/62 sm:text-[16px]">Answer a few focused questions and let us recommend the most useful next step for your Regina project.</p>
             <div className="mt-8"><ConversionLink location="final" light>Check my project fit</ConversionLink></div>
           </div>

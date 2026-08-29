@@ -46,7 +46,7 @@ export function Home() {
         <div className="content-stretch flex flex-col gap-[24px] md:gap-[45px] items-center relative shrink-0 w-full">
           {/* Slogan */}
           <div className="box-border content-stretch flex flex-col items-center justify-center gap-[12px] px-[20px] md:px-[80px] lg:px-[175px] py-0 relative shrink-0 w-full">
-            <h1 className="font-['Anybody',_sans-serif] leading-[1.031] relative text-[#191919] text-[24px] sm:text-[32px] md:text-[39.075px] text-center tracking-[-0.96px] md:tracking-[-1.563px] hyphens-none" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 700 }}>
+            <h1 className="brand-heading brand-heading--hero relative text-[#191919] text-center hyphens-none">
               Install. Perfect. Finish.
             </h1>
             <p className="font-['Anybody',_sans-serif] leading-[1.5] relative text-[#191919]/70 text-center tracking-[-0.4px] max-w-[600px] text-[10px]" style={{ fontVariationSettings: "'wdth' 137", fontWeight: 500 }}>
