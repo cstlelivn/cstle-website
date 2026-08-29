@@ -11,7 +11,7 @@ import imgImageModernKitchenInstallation3 from "figma:asset/a7be56811c496c3c82df
 export const galleryContent = {
   hero: {
     title: "Our Work",
-    subtitle: "Explore completed and in-progress projects from Cstle Livn, including the planning, installation, and finishing details behind each space.",
+    subtitle: "Selected construction, renovation and finishing work by Cstle in Regina and Saskatchewan—shown through real project details, progress and completed spaces.",
   },
   
   items: [
