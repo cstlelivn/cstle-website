@@ -33,6 +33,17 @@ export interface Attribution {
   referrer: string | null;
 }
 
+const ATTRIBUTION_STORAGE_KEY = "cstle:first-touch-attribution:v1";
+const ATTRIBUTION_QUERY_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+  "gclid",
+  "fbclid",
+] as const;
+
 const SERVICE_AREA = new Set([
   "regina",
   "white city",
@@ -41,7 +52,7 @@ const SERVICE_AREA = new Set([
   "balgonie",
 ]);
 
-export function captureAttribution(): Attribution {
+function attributionFromCurrentPage(): Attribution {
   const params = new URLSearchParams(window.location.search);
   const value = (key: string) => params.get(key)?.trim() || null;
 
@@ -56,6 +67,50 @@ export function captureAttribution(): Attribution {
     landing_page: `${window.location.pathname}${window.location.search}`,
     referrer: document.referrer || null,
   };
+}
+
+function hasAcquisitionSignal(attribution: Attribution) {
+  return ATTRIBUTION_QUERY_KEYS.some((key) => Boolean(attribution[key]));
+}
+
+/**
+ * Preserve the first useful acquisition touch for this browser session.
+ * Internal navigation from the landing page to Project Fit must not erase the
+ * campaign/click identifiers that brought the prospect to Cstle.
+ */
+export function rememberAttribution(): Attribution {
+  const current = attributionFromCurrentPage();
+
+  try {
+    const storedValue = window.sessionStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+    const stored = storedValue ? JSON.parse(storedValue) as Attribution : null;
+    const shouldReplace = !stored || (!hasAcquisitionSignal(stored) && hasAcquisitionSignal(current));
+
+    if (shouldReplace) {
+      window.sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(current));
+      return current;
+    }
+
+    return stored;
+  } catch {
+    return current;
+  }
+}
+
+export function captureAttribution(): Attribution {
+  return rememberAttribution();
+}
+
+/** Carry only recognized acquisition parameters into the Project Fit URL. */
+export function acquisitionQueryString() {
+  const current = new URLSearchParams(window.location.search);
+  const forwarded = new URLSearchParams();
+  ATTRIBUTION_QUERY_KEYS.forEach((key) => {
+    const value = current.get(key)?.trim();
+    if (value) forwarded.set(key, value);
+  });
+  const query = forwarded.toString();
+  return query ? `?${query}` : "";
 }
 
 export function scoreReginaBasementFit(answers: ProjectFitAnswers) {

@@ -14,12 +14,14 @@ import { LogoTest } from "./pages/LogoTest";
 import { Admin } from "./pages/Admin";
 import { AdminSetup } from "./pages/AdminSetup";
 import { trackPageView, GA_MEASUREMENT_ID } from "./utils/analytics";
+import { rememberAttribution } from "./revenue/intake";
 
 // Analytics wrapper component to track page views
 function AnalyticsWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   useEffect(() => {
+    rememberAttribution();
     // Track page view on route change
     trackPageView(location.pathname + location.search);
   }, [location]);

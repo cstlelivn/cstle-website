@@ -6,6 +6,7 @@ import basementMediaImage from "../../assets/0947c4766c3b4a3b6f639f6e1266d28c06a
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { trackEvent } from "../utils/analytics";
+import { acquisitionQueryString } from "../revenue/intake";
 
 const fitPath = "/book/basement-development-regina";
 
@@ -41,9 +42,10 @@ const questions = [
 ];
 
 function ConversionLink({ location, light = false, children }: { location: string; light?: boolean; children: React.ReactNode }) {
+  const destination = `${fitPath}${acquisitionQueryString()}`;
   return (
     <Link
-      to={fitPath}
+      to={destination}
       onClick={() => trackEvent("basement_funnel_cta", { offer: "regina-basement-development", location })}
       className={`group inline-flex min-h-[52px] items-center justify-center gap-3 rounded-full px-6 font-['Roboto_Mono',_sans-serif] text-[10px] font-bold uppercase tracking-[0.02em] transition-[transform,box-shadow,background-color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 motion-reduce:transform-none motion-reduce:transition-none ${light ? "bg-white text-[#191919] shadow-[0_10px_34px_rgba(0,0,0,0.2)] hover:-translate-y-px hover:bg-[#f4f4f2] focus-visible:ring-white" : "bg-[#191919] text-white shadow-[0_10px_30px_rgba(0,0,0,0.16)] hover:-translate-y-px hover:shadow-[0_14px_36px_rgba(0,0,0,0.22)] focus-visible:ring-[#191919]"}`}
     >
@@ -68,10 +70,23 @@ export function BasementDevelopmentRegina() {
     }
     meta.content = description;
 
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const createdCanonical = !canonical;
+    const previousCanonical = canonical?.href;
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+    }
+    canonical.href = "https://www.cstle.ca/basement-development-regina";
+    trackEvent("basement_funnel_view", { offer: "regina-basement-development" });
+
     return () => {
       document.title = previousTitle;
       if (createdMeta) meta?.remove();
       else if (meta && previousDescription !== undefined) meta.content = previousDescription;
+      if (createdCanonical) canonical?.remove();
+      else if (canonical && previousCanonical) canonical.href = previousCanonical;
     };
   }, []);
 
